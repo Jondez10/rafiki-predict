@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // 1. User Profiles & Saved Bookmarks
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // 2. Collections managed by platform
+    match /predictions/{predictionId} {
+      allow read, write: if true;
+    }
+
+    match /accumulators/{accumulatorId} {
+      allow read, write: if true;
+    }
+
+    match /matches/{matchId} {
+      allow read, write: if true;
+    }
+
+    match /articles/{articleId} {
+      allow read, write: if true;
+    }
+
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    match /stats/{statId} {
+      allow read, write: if true;
+    }
+
+    match /payments/{paymentId} {
+      allow read, write: if true;
+    }
+
+    match /feedback/{feedbackId} {
+      allow read, write: if true;
+    }
+
+    match /saved/{savedId} {
+      allow read, write: if true;
+    }
+
+    // Default deny catch-all safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
